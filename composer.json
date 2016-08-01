@@ -1,11 +1,13 @@
 {
     "name": "alex-5zi/hexlet-psr-linter",
+    "bin": ["bin/hexlet-psr-linter"],
+    "type": "application",
     "require": {},
     "require-dev": {
-       "phpunit/phpunit": "5.*",
-       "squizlabs/php_codesniffer": "2.*",
-       "nikic/php-parser": "2.*",
-       "codeclimate/php-test-reporter": "dev-master"
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "*",
+        "nikic/php-parser": "2.*",
+        "codeclimate/php-test-reporter": "dev-master"
      },
     "authors": [
       {
@@ -18,4 +20,4 @@
           "hexletPsrLinter\\": "src/"
         }
     }
-}-
+}
