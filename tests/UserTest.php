@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpPackage;
+namespace hexletPsrLinter;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
