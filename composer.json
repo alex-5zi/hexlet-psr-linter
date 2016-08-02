@@ -9,7 +9,6 @@
         "nikic/php-parser": "2.*",
         "codeclimate/php-test-reporter": "dev-master"
      },
-    "minimum-stability": "dev",
     "authors": [
       {
         "name": "Aleksandr Kuznetsov",
