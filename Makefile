@@ -9,3 +9,6 @@ lint:
 
 test:
 	composer exec 'phpunit tests'
+    
+beauty:
+    composer exec 'phpcbf --standard=PSR2 src bin'

@@ -1,23 +1,24 @@
 {
     "name": "alex-5zi/hexlet-psr-linter",
-    "bin": ["bin/hexlet-psr-linter"],
-    "type": "application",
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "*",
-        "squizlabs/php_codesniffer": "*",
-        "nikic/php-parser": "2.*",
-        "codeclimate/php-test-reporter": "dev-master"
-     },
+    "type": "library",
     "authors": [
       {
         "name": "Aleksandr Kuznetsov",
         "email": "alex-5zi@rambler.ru"
       }
     ],
+    "require": {
+        "nikic/php-parser": "*",
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "*",
+        "codeclimate/php-test-reporter": "dev-master"
+    },
     "autoload": {
         "psr-4": {
           "hexletPsrLinter\\": "src/"
         }
-    }
+    },
+    "bin": ["bin/hexlet-psr-linter"]
 }
