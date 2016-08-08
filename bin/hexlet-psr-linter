@@ -4,10 +4,10 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-echo 'what is your name?: ';
-$name = trim(fgets(STDIN));
+$cmd = new Commando\Command();
+$cmd
+    ->argument()
+        ->expectsFile();
+var_dump($cmd->getArgumentValues());
 
-$user = new PhpPackage\User($name);
-
-var_dump($user);
-
+&psrlint = new hexletPsrLinter\PsrLinter($cmd->getArgumentValues());

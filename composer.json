@@ -8,7 +8,8 @@
       }
     ],
     "require": {
-        "nikic/php-parser": "*"
+        "nikic/php-parser": "*",
+        "nategood/commando": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
