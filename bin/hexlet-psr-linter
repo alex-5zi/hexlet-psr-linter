@@ -5,9 +5,10 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $cmd = new Commando\Command();
-$cmd
-    ->argument()
-        ->expectsFile();
+$cmd->argument()->expectsFile();
 var_dump($cmd->getArgumentValues());
 
-&psrlint = new hexletPsrLinter\PsrLinter($cmd->getArgumentValues());
+$psrlint = new hexletPsrLinter\PsrLinter();
+$psrlint->setFile($cmd->getArgumentValues()[0]);
+$psrlint->run();
+//var_dump($psrlint->run());

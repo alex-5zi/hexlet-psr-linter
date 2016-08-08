@@ -9,7 +9,8 @@
     ],
     "require": {
         "nikic/php-parser": "*",
-        "nategood/commando": "*"
+        "nategood/commando": "*",
+        "league/climate": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

@@ -11,7 +11,11 @@ class PsrLinter
         $this->arg = $arg;
     }
 
-    public function GetName()
+    public function __getDDDD()
+    {
+    }
+
+    public function getName()
     {
         return $this->arg;
     }
