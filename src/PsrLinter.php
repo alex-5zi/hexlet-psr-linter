@@ -26,6 +26,7 @@ class PsrLinter
     
     public function run()
     {
+     //   $this->log = [];
         foreach ($this->files as $path) {
             $code = file_get_contents($path);
             $lint = new Linter;

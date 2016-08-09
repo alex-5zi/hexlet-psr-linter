@@ -44,9 +44,9 @@ class LinterVisitor extends NodeVisitorAbstract
         if ($node instanceof Stmt\ClassMethod) {
             // Is this a magic method. i.e., is prefixed with "__" ?
             $methodName = $node->name;
-            if (preg_match('|^__|', $methodName) !== 0) {
+            if (preg_match('|^__|', $methodName)) {
                 $magicPart = strtolower(substr($methodName, 2));
-                if (isset($this->magicMethods[$magicPart]) === false) {
+                if (!isset($this->magicMethods[$magicPart])) {
                     return 'Method name is invalid; only PHP magic methods should be prefixed with a double underscore';
                 } else {
                     return true;

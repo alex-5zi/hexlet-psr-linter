@@ -51,7 +51,7 @@ class PsrLinterTest extends \PHPUnit_Framework_TestCase
                                       ->setContent('<?php class PsrLinterTest { public function GetName(){}}');
         $psrlint = new PsrLinter();
         $psrlint->addFile(vfsStream::url('home/test4.php'));
-        $log = $psrlint->run()->getLog();
+        $log = $psrlint->run()->run()->getLog();
         $this->assertEquals(1, count($log));
     }
 }
