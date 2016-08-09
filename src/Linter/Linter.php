@@ -17,7 +17,7 @@ class Linter
     public function lint($code)
     {
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-        $traverser   = new NodeTraverser;    
+        $traverser   = new NodeTraverser;
         $nodeVisitor = new LinterVisitor();
         $traverser->addVisitor($nodeVisitor);
         try {
@@ -28,6 +28,5 @@ class Linter
         }
      
         return $nodeVisitor->getLog();
-}
-
+    }
 }

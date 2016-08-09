@@ -41,15 +41,14 @@ class LinterVisitor extends NodeVisitorAbstract
             }
             return true;
         }
-        if ($node instanceof Stmt\ClassMethod) {    
+        if ($node instanceof Stmt\ClassMethod) {
             // Is this a magic method. i.e., is prefixed with "__" ?
             $methodName = $node->name;
             if (preg_match('|^__|', $methodName) !== 0) {
                 $magicPart = strtolower(substr($methodName, 2));
                 if (isset($this->magicMethods[$magicPart]) === false) {
                     return 'Method name is invalid; only PHP magic methods should be prefixed with a double underscore';
-                } else
-                {
+                } else {
                     return true;
                 }
             }
@@ -79,5 +78,4 @@ class LinterVisitor extends NodeVisitorAbstract
     {
         return $this->log;
     }
-    
 }

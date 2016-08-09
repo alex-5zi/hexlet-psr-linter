@@ -18,12 +18,13 @@ class PsrLinter
     public function addFile($path)
     {
         if (file_exists($path) && is_file($path)) {
-            array_push($this->files, $path);   
+            array_push($this->files, $path);
         }
         return $this;
     }
     
-    public function run() {
+    public function run()
+    {
         foreach ($this->files as $path) {
             $code = file_get_contents($path);
             $lint = new Linter;
@@ -40,6 +41,5 @@ class PsrLinter
     public function getLog()
     {
         return $this->log;
-
     }
 }
