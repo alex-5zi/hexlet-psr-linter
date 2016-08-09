@@ -3,6 +3,7 @@
 namespace hexletPsrLinter;
 
 use hexletPsrLinter\Linter\Linter;
+use League\CLImate\CLImate;
 
 class PsrLinter
 {
@@ -37,9 +38,19 @@ class PsrLinter
         return $this;
     }
     
-    
     public function getLog()
     {
         return $this->log;
+    }
+    
+    public function printLog()
+    {
+        $climate = new CLImate;
+        if (!empty($log)) {
+            foreach ($log as $key => $value) {
+                $climate->comment($key);
+                $climate->table($value);
+            }
+        }
     }
 }

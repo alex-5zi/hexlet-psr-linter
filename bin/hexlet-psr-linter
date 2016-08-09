@@ -4,8 +4,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use org\bovigo\vfs\vfsStream;
-
 $cmd = new Commando\Command();
 
 //$cmd->option('R')
@@ -17,11 +15,6 @@ $cmd = new Commando\Command();
 $cmd->argument()->expectsFile()->description('File');
 
 $psrlint = new hexletPsrLinter\PsrLinter();
-$psrlint->addFile($cmd->getArgumentValues()[0]);
-$log = $psrlint->run()->getLog();
-
-$climate = new League\CLImate\CLImate;
-foreach ($log as $key => $value) {
-    $climate->comment($key);
-    $climate->table($value);    
-}
+$psrlint->addFile($cmd->getArgumentValues()[0])
+        ->run()
+        ->printLog();
