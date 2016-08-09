@@ -1,12 +1,12 @@
 <?php
 
-namespace hexletPsrLinter;
+namespace hexletPsrLinter\Linter;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
 
-class MyNodeVisitor extends NodeVisitorAbstract
+class LinterVisitor extends NodeVisitorAbstract
 {
     private $log;
 

@@ -10,7 +10,8 @@
     "require": {
         "nikic/php-parser": "*",
         "nategood/commando": "*",
-        "league/climate": "*"
+        "league/climate": "*",
+        "mikey179/vfsStream": "~1"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

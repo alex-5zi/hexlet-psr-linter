@@ -2,20 +2,21 @@
 
 class PsrLinterTest
 {
-    private $arg;
 
     public function __construct($arg)
     {
-        $this->arg = $arg;
     }
 
-    public function __getDDDD()
+    public function __getData()
     {
     }
 
-    public function getName()
+    public function GetName()
     {
-        return $this->arg;
+    }
+    
+    public function getLastname()
+    {
     }
 }
 

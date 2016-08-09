@@ -2,14 +2,7 @@
 
 namespace hexletPsrLinter;
 
-use PhpParser\Node;
-use PhpParser\NodeDumper;
-use PhpParser\NodeVisitorAbstract;
-use PhpParser\ParserFactory;
-use PhpParser\Node\Stmt;
-use PhpParser\NodeTraverser;
-use PhpParser\Error;
-use League\CLImate\CLImate;
+use hexletPsrLinter\Linter\Linter;
 
 class PsrLinter
 {
@@ -33,35 +26,20 @@ class PsrLinter
     public function run() {
         foreach ($this->files as $path) {
             $code = file_get_contents($path);
-            $log = $this->lint($code);
+            $lint = new Linter;
+            $log = $lint->lint($code);
             if (count($log) > 0) {
-                array_push($this->log, ['filename' => $path]);
-                array_push($this->log, ['lint' => $log]);
+                //array_push($this->log, ['filename' => $path]);
+                $this->log[$path] = $log;
             }
-            $this->cliOut();
         }
         return $this;
     }
     
-    public function lint($code)
-    {
-        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-        $traverser   = new NodeTraverser;    
-        $nodeVisitor = new MyNodeVisitor();
-        $traverser->addVisitor($nodeVisitor);
-        try {
-            $stmts = $parser->parse($code);
-            $stmts = $traverser->traverse($stmts);
-        } catch (Error $e) {
-            echo 'Parse Error: '. $e->getMessage();
-        }
-        
-        return $nodeVisitor->getLog();
-    }
     
-    public function cliOut()
+    public function getLog()
     {
-        $climate = new CLImate;
-        $climate->table($this->log);
+        return $this->log;
+
     }
 }

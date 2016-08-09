@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1cdc2ba9ea3d653377e039499e728378",
-    "content-hash": "e8881e0ccf2cb8c7b15852e3dcb1dcfa",
+    "hash": "90a9b9b82792d35f00631bcb35913995",
+    "content-hash": "4c809b8e659b43e608a847e1256c0657",
     "packages": [
         {
             "name": "kevinlebrun/colors.php",
@@ -103,6 +103,52 @@
                 "terminal"
             ],
             "time": "2016-04-04 20:24:59"
+        },
+        {
+            "name": "mikey179/vfsStream",
+            "version": "v1.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mikey179/vfsStream.git",
+                "reference": "0247f57b2245e8ad2e689d7cee754b45fbabd592"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/0247f57b2245e8ad2e689d7cee754b45fbabd592",
+                "reference": "0247f57b2245e8ad2e689d7cee754b45fbabd592",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "org\\bovigo\\vfs\\": "src/main/php"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Frank Kleine",
+                    "homepage": "http://frankkleine.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Virtual file system to mock the real file system in unit tests.",
+            "homepage": "http://vfs.bovigo.org/",
+            "time": "2016-07-18 14:02:57"
         },
         {
             "name": "nategood/commando",
