@@ -5,10 +5,18 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $cmd = new Commando\Command();
-$cmd->argument()->expectsFile();
+
+$cmd->option('R')
+    ->aka('recursive')
+    ->description('Recursive')
+    ->boolean()
+    ->default(false);
+    
+$cmd->argument()->expectsFile()->description('Path');
+
 var_dump($cmd->getArgumentValues());
 
 $psrlint = new hexletPsrLinter\PsrLinter();
-$psrlint->setFile($cmd->getArgumentValues()[0]);
+$psrlint->addFile($cmd->getArgumentValues()[0]);
 $psrlint->run();
 //var_dump($psrlint->run());

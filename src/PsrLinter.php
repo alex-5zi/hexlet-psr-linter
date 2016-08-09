@@ -13,24 +13,34 @@ use League\CLImate\CLImate;
 
 class PsrLinter
 {
-    private $file;
+    private $files;
     private $log;
 
     public function __construct()
     {
+        $this->files = [];
         $this->log = [];
     }
 
-    public function setFile($path)
+    public function addFile($path)
     {
-        $this->file = $path;
+        if (file_exists($path) && is_file($path)) {
+            array_push($this->files, $path);   
+        }
         return $this;
     }
     
     public function run() {
-        $code = file_get_contents($this->file);
-        $this->lint($code);
-        $this->cliOut();
+        foreach ($this->files as $path) {
+            $code = file_get_contents($path);
+            $log = $this->lint($code);
+            if (count($log) > 0) {
+                array_push($this->log, ['filename' => $path]);
+                array_push($this->log, ['lint' => $log]);
+            }
+            $this->cliOut();
+        }
+        return $this;
     }
     
     public function lint($code)
@@ -45,10 +55,8 @@ class PsrLinter
         } catch (Error $e) {
             echo 'Parse Error: '. $e->getMessage();
         }
-    
-        //$f = CodeSniffer\PHP_CodeSniffer_File::;
         
-        $this->log = $nodeVisitor->getLog();
+        return $nodeVisitor->getLog();
     }
     
     public function cliOut()

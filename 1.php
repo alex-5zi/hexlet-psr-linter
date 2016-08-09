@@ -1,8 +1,6 @@
 <?php
 
-namespace hexletPsrLinter;
-
-class PsrLinter
+class PsrLinterTest
 {
     private $arg;
 
