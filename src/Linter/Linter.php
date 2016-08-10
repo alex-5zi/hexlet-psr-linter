@@ -11,22 +11,18 @@ use PhpParser\NodeTraverser;
 use PhpParser\Error;
 use hexletPsrLinter\Linter\LinterVisitor;
 
-class Linter
+function lint($code)
 {
-
-    public function lint($code)
-    {
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         $traverser   = new NodeTraverser;
         $nodeVisitor = new LinterVisitor();
         $traverser->addVisitor($nodeVisitor);
-        try {
-            $stmts = $parser->parse($code);
-            $stmts = $traverser->traverse($stmts);
-        } catch (Error $e) {
-            echo 'Parse Error: '. $e->getMessage();
-        }
+    try {
+        $stmts = $parser->parse($code);
+        $stmts = $traverser->traverse($stmts);
+    } catch (Error $e) {
+        echo 'Parse Error: '. $e->getMessage();
+    }
      
         return $nodeVisitor->getLog();
-    }
 }

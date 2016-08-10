@@ -22,7 +22,9 @@
         "psr-4": {
           "hexletPsrLinter\\": "src/"
         },
-        "files": ["src/PsrLinterUtils.php"]
+        "files": ["src/PsrLinterUtils.php",
+                  "src/PsrLinter.php",
+                  "src/Linter/Linter.php"]
     },
     "bin": ["bin/hexlet-psr-linter"]
 }

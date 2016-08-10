@@ -2,58 +2,25 @@
 
 namespace hexletPsrLinter;
 
-use hexletPsrLinter\Linter\Linter;
+//use hexletPsrLinter\Linter\lint;
 
-class PsrLinter
+function psrLint($input = '')
 {
-    private $files;
-    //private $log;
-
-    public function __construct()
-    {
-        $this->files = [];
-        //$this->log = [];
+    $log = array();
+    $files = array();
+    if (is_array($input)) {
+        $files = $input;
+    } else {
+        $files[] = $input;
     }
-    
-    private function addFile($path)
-    {
-        if (file_exists($path) && is_file($path)) {
-            array_push($this->files, $path);
-        }
-        return;
-    }
-
-    public function setFiles($paths = '')
-    {
-        $this->files = [];
-        if (is_array($paths)) {
-            foreach ($paths as $path) {
-                $this->addFile($path);
-            }
-        } else {
-            $this->addFile($paths);
-        }
-        return $this;
-    }
-    
-    private function run()
-    {
-        $log = [];
-        foreach ($this->files as $path) {
-            if (file_exists($path)) {
-                $code = file_get_contents($path);
-                $lint = new Linter;
-                $logLint = $lint->lint($code);
-                if (count($logLint) > 0) {
-                    $log[$path] = $logLint;
-                }
+    foreach ($files as $path) {
+        if (is_file($path)) {
+            $code = file_get_contents($path);
+            $logLint = Linter\lint($code);
+            if (count($logLint) > 0) {
+                $log[$path] = $logLint;
             }
         }
-        return $log;
     }
-    
-    public function getLog()
-    {
-        return $this->run();
-    }
+    return $log;
 }
