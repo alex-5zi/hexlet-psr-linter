@@ -21,7 +21,8 @@
     "autoload": {
         "psr-4": {
           "hexletPsrLinter\\": "src/"
-        }
+        },
+        "files": ["src/PsrLinterUtils.php"]
     },
     "bin": ["bin/hexlet-psr-linter"]
 }

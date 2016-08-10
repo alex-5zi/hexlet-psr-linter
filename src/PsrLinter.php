@@ -3,55 +3,57 @@
 namespace hexletPsrLinter;
 
 use hexletPsrLinter\Linter\Linter;
-use League\CLImate\CLImate;
 
 class PsrLinter
 {
     private $files;
-    private $log;
+    //private $log;
 
     public function __construct()
     {
         $this->files = [];
-        $this->log = [];
+        //$this->log = [];
     }
-
-    public function addFile($path)
+    
+    private function addFile($path)
     {
         if (file_exists($path) && is_file($path)) {
             array_push($this->files, $path);
         }
+        return;
+    }
+
+    public function setFiles($paths = '')
+    {
+        $this->files = [];
+        if (is_array($paths)) {
+            foreach ($paths as $path) {
+                $this->addFile($path);
+            }
+        } else {
+            $this->addFile($paths);
+        }
         return $this;
     }
     
-    public function run()
+    private function run()
     {
-     //   $this->log = [];
+        $log = [];
         foreach ($this->files as $path) {
-            $code = file_get_contents($path);
-            $lint = new Linter;
-            $log = $lint->lint($code);
-            if (count($log) > 0) {
-                //array_push($this->log, ['filename' => $path]);
-                $this->log[$path] = $log;
+            if (file_exists($path)) {
+                $code = file_get_contents($path);
+                $lint = new Linter;
+                $logLint = $lint->lint($code);
+                if (count($logLint) > 0) {
+                    $log[$path] = $logLint;
+                }
             }
         }
-        return $this;
+        return $log;
     }
     
     public function getLog()
     {
-        return $this->log;
-    }
-    
-    public function printLog()
-    {
-        $climate = new CLImate;
-        if (!empty($log)) {
-            foreach ($log as $key => $value) {
-                $climate->comment($key);
-                $climate->table($value);
-            }
-        }
+        return $this->run();
     }
 }
