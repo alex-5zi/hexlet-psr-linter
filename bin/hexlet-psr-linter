@@ -15,6 +15,5 @@ $cmd = new Commando\Command();
 $cmd->argument()->expectsFile()->description('or Directory, or File, or Wildcard');
 $paths = hexletPsrLinter\createArrayFile($cmd->getArgumentValues());
 hexletPsrLinter\printLog(hexletPsrLinter\psrLint($paths));
-
                                  
                                  

@@ -2,8 +2,6 @@
 
 namespace hexletPsrLinter;
 
-//use hexletPsrLinter\Linter\lint;
-
 function psrLint($input = '')
 {
     $log = array();
@@ -17,9 +15,7 @@ function psrLint($input = '')
         if (is_file($path)) {
             $code = file_get_contents($path);
             $logLint = Linter\lint($code);
-            if (count($logLint) > 0) {
-                $log[$path] = $logLint;
-            }
+            $log[$path] = $logLint;
         }
     }
     return $log;

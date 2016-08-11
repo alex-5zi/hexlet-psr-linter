@@ -11,7 +11,8 @@
         "nikic/php-parser": "*",
         "nategood/commando": "*",
         "league/climate": "*",
-        "mikey179/vfsStream": "~1"
+        "mikey179/vfsStream": "~1",
+        "psr/log": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
