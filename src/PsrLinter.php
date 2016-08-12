@@ -15,7 +15,7 @@ function psrLint($input = '')
         if (is_file($path)) {
             $code = file_get_contents($path);
             $logLint = Linter\lint($code);
-            $log[$path] = $logLint;
+            $log[$path] = $logLint->getLog();
         }
     }
     return $log;

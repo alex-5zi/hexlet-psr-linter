@@ -2,23 +2,23 @@
 
 namespace hexletPsrLinter\Linter;
 
-use org\bovigo\vfs\vfsStream;
+use hexletPsrLinter\Logger\Logger;
 
 class LinterTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testLint()
     {
-        $result =
+        $result = new Logger();
+        $result->warning(
+            "Method name is not in camel caps format",
             [
-             [  'line' => 1,
-                'column' => 0,
-                'level' => "WARNING",
-                'message' => "Method name is not in camel caps format",
-                'name' => "DconsDtruct"
-              ]
-            ];
-            
-        $this->assertEquals($result, lint('<?php class PsrLinterTest { public function DconsDtruct(){}}'));
+                                        'line' => 1,
+                                        'name' => "DconsDtruct"
+                                    ]
+        );
+
+        $log = lint('<?php class PsrLinterTest { public function DconsDtruct(){}}')->getLog();
+        $this->assertEquals($result->getLog(), $log);
     }
 }

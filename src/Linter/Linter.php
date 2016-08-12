@@ -15,25 +15,25 @@ use hexletPsrLinter\Logger\Logger;
 function lint($code, $rules = array())
 {
         $allRules = array_merge(
-                                [
-                                     new CamelCase(),
-                                     new SideEffect()
+            [
+                                     new Rules\CamelCapsRule(),
+                                     new Rules\SideEffectsRule()
                                 ],
-                                $rules
-                );
+            $rules
+        );
         
         $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         $traverser   = new NodeTraverser;
-        $nodeVisitor = new LinterVisitor();
-        $traverser->addVisitor($rules);
-        try {
-                $stmts = $parser->parse($code);
-                $stmts = $traverser->traverse($stmts);
-        } catch (Error $e) {
-                $log = new Logger();
-                $log->error('Parse Error: '. $e->getMessage());
-                return $log;
-        }
+        $nodeVisitor = new LinterVisitor($allRules);
+        $traverser->addVisitor($nodeVisitor);
+    try {
+        $stmts = $parser->parse($code);
+        $stmts = $traverser->traverse($stmts);
+    } catch (Error $e) {
+        $log = new Logger();
+        $log->error('Parse Error: '. $e->getMessage());
+        return $log;
+    }
      
         return $nodeVisitor->getLog();
 }

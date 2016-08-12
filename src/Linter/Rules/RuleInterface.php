@@ -13,4 +13,3 @@ interface RuleInterface
     public function afterCheck(array $nodes);
     public function getLog();
 }
-    

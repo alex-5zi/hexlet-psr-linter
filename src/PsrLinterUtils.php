@@ -10,7 +10,8 @@ function printLog($log)
     if (!empty($log)) {
         foreach ($log as $key => $value) {
             $climate->comment($key);
-            $climate->table($value);
+            $arrLog = $value->getLog();
+            $climate->table($arrLog);
         }
     }
 }

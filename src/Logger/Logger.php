@@ -27,7 +27,8 @@ class Logger extends AbstractLogger
         $this->logger = [];
     }
     
-    public function log($level, $message, array $context = array()) {
+    public function log($level, $message, array $context = array())
+    {
         $this->logger[] = [
                 'level' => $level,
                 'message' => $message,
@@ -35,7 +36,8 @@ class Logger extends AbstractLogger
         ];
     }
      
-    public function getLog() {
+    public function getLog()
+    {
         return $this->logger;
     }
 }

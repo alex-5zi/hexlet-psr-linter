@@ -8,8 +8,7 @@ use PhpParser\NodeVisitorAbstract;
 use hexletPsrLinter\Logger\Logger;
 use Psr\Log\LoggerInterface;
 
-
-class SideEffectsRule extends RuleInterface
+class SideEffectsRule implements RuleInterface
 {
     private $log;
     
@@ -21,28 +20,30 @@ class SideEffectsRule extends RuleInterface
         $this->log = new Logger;
     }
 
-    public function check($node){   
-        switch ($node) {
+    public function beforeCheck(array $nodes)
+    {
+        $this->flagDeclaration = false;
+        $this->flagDeclaration = false;
+    }
+    
+    public function check(Node $node)
+    {
+        switch ($node->getType()) {
             case "Stmt_Function":
             case "Stmt_Class":
                 $this->flagDeclaration = true;
                 break;
-            case "Stmt_Function":
-            case "Stmt_Class":
-            case "Stmt_Class":
+            case "Expr_FuncCall":
+            case "Expr_Include":
+            case "Stmt_Echo":
                 $this->flagSideEffect = true;
                 break;
         }
         return;
     }
     
-    public function beforeCheck(array $nodes){   
-        $this->flagDeclaration = false;
-        $this->flagDeclaration = false;
-    }
-    
-    
-    public function afterCheck(array $nodes){
+    public function afterCheck(array $nodes)
+    {
         if ($this->flagSideEffect && $this->flagDeclaration) {
             $this->log->warning('A file SHOULD declare new symbols (classes, functions, constants, etc.)
                                 and cause no other side effects, or it SHOULD execute logic with
