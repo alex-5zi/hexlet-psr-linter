@@ -8,7 +8,11 @@
       }
     ],
     "require": {
-        "nikic/php-parser": "*"
+        "nikic/php-parser": "*",
+        "nategood/commando": "*",
+        "league/climate": "*",
+        "mikey179/vfsStream": "~1",
+        "psr/log": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
@@ -18,7 +22,10 @@
     "autoload": {
         "psr-4": {
           "hexletPsrLinter\\": "src/"
-        }
+        },
+        "files": ["src/PsrLinterUtils.php",
+                  "src/PsrLinter.php",
+                  "src/Linter/Linter.php"]
     },
     "bin": ["bin/hexlet-psr-linter"]
 }
