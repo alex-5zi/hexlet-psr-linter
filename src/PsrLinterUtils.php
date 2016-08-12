@@ -9,9 +9,17 @@ function printLog($log)
     $climate = new CLImate;
     if (!empty($log)) {
         foreach ($log as $key => $value) {
-            $climate->comment($key);
-            $arrLog = $value->getLog();
-            $climate->table($arrLog);
+            if (!empty($value)) {
+                $climate->comment($key);
+                $arrLog = [];
+                //$arrLog[] = ['level', 'context', 'message'];
+                foreach ($value as $item) {
+                    $arrLog[] = [$item['level'],
+                                 implode(" : ", $item['context']),
+                                 $item['message']];
+                }
+                $climate->columns($arrLog);
+            }
         }
     }
 }

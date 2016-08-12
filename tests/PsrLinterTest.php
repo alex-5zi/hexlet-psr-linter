@@ -79,8 +79,10 @@ class PsrLinterTest extends \PHPUnit_Framework_TestCase
                                     ]
         );
         $logger3->warning(
-            "A file SHOULD declare new symbols (classes, functions, constants, etc.)
-                                and cause no other side effects, or it SHOULD execute logic with
+            "A file SHOULD declare new symbols
+                                (classes, functions, constants, etc.)
+                                and cause no other side effects, or
+                                it SHOULD execute logic with
                                 side effects, but SHOULD NOT do both."
         );
         $result = ['vfs://home/test5.php' => $logger3->getLog()];
