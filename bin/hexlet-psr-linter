@@ -4,10 +4,51 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-echo 'what is your name?: ';
-$name = trim(fgets(STDIN));
+$cmd = new Commando\Command();
 
-$user = new PhpPackage\User($name);
-
-var_dump($user);
+//$cmd->option('R')
+//    ->aka('recursive')
+//    ->description('Recursive')
+//    ->boolean()
+//    ->default(false);
+    
+$cmd->argument()->expectsFile()->description('or Directory, or File, or Wildcard');
+$paths = hexletPsrLinter\createArrayFile($cmd->getArgumentValues());
+hexletPsrLinter\printLog(hexletPsrLinter\psrLint($paths));
+                                 
+                                 
+//
+//
+//
+//use PhpParser\Error;
+//use PhpParser\ParserFactory;
+//
+//$code = '<?php
+//// побочный эффект: изменение настроек
+//ini_set("error_reporting", E_ALL);
+// 
+//// побочный эффект: подключение файла
+//include "file.php";
+// 
+//// побочный эффект: передача данных в выходной поток
+//echo "\n";
+// 
+//// объявление
+//function foo()
+//{
+//    // тело функции
+//}';
+//
+//$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+//
+//try {
+//    $stmts = $parser->parse($code);
+//    // $stmts is an array of statement nodes
+//} catch (Error $e) {
+//    echo 'Parse Error: ', $e->getMessage();
+//}
+//
+//foreach($stmts as $value) {
+//    var_dump($value->getType());
+//}
 
