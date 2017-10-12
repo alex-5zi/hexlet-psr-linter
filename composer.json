@@ -1,0 +1,23 @@
+{
+    "name": "alex-5zi/hexlet-psr-linter",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Aleksandr Kuznetsov",
+            "email": "alex-5zi@rambler.ru"
+      }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "hexletPsrLinter\\": "src/"
+        },
+        "files": ["src/PsrLinter.php"
+                ]
+    },
+    "bin": ["bin/hexlet-psr-linter"]
+}

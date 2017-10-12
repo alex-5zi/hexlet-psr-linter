@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+
+<?php
+// #!/usr/bin/env php -  такой скрипт можно будет выполнить как обычную программу в Linux.
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$hello = hexletPsrLinter\psrLint('hexlet-psr-linter');
+
+echo $hello;
