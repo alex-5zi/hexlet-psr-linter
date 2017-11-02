@@ -5,6 +5,5 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$hello = hexletPsrLinter\psrLint('hexlet-psr-linter');
-
-echo $hello;
+$psrLinter = new hexletPsrLinter\CLI();
+$psrLinter->run();

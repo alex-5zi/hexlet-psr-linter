@@ -7,16 +7,21 @@
             "email": "alex-5zi@rambler.ru"
       }
     ],
-    "require": {},
+    "require": {
+        "nikic/php-parser": "^3.1",
+        "psr/log": "^1.0",
+        "league/climate": "^3.2"
+    },
     "require-dev": {
         "phpunit/phpunit": "*",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "mikey179/vfsStream": "*"
     },
     "autoload": {
         "psr-4": {
             "hexletPsrLinter\\": "src/"
         },
-        "files": ["src/PsrLinter.php"
+        "files": ["src/Linter/Linter.php"
                 ]
     },
     "bin": ["bin/hexlet-psr-linter"]
