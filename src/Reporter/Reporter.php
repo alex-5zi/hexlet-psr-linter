@@ -15,7 +15,7 @@ class Reporter extends AbstractLogger implements LoggerInterface
     public function __construct($name='root')
     {
         $this->routes = new SplObjectStorage();
-        $this->routes->attach(new ArrayRoute());
+        $this->routes->attach(new ArrayRoute(), 'ArrayRoute');
         $this->name = $name;
     }
 
@@ -30,27 +30,24 @@ class Reporter extends AbstractLogger implements LoggerInterface
 
     public function log($level, $message, array $context = [])
     {
-        foreach ($this->routes as $route) {
-            if (!$route instanceof Route) {
-                continue;
-            }
-            if (!$route->getIsEnable()) {
-                continue;
-            }
+        $this->routes->rewind();
+        while ($this->routes->valid()) {
+            $route = $this->routes->current();
             $route->log($level, $message, $context);
+            $this->routes->next();
         }
     }
 
-    public function printReport()
+    public function getReport($nameRoute = 'ArrayRoute')
     {
-        foreach ($this->routes as $route) {
-            if (!$route instanceof Route) {
-                continue;
+        $this->routes->rewind();
+        while ($this->routes->valid()) {
+            $route = $this->routes->current();
+            $data   = $this->routes->getInfo();
+            if ($data == $nameRoute) {
+                return $route->getReport();
             }
-            if (!$route->getIsEnable()) {
-                continue;
-            }
-            $route->printReport();
+            $this->routes->next();
         }
     }
 }

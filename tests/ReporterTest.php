@@ -12,30 +12,29 @@ class ReporterTest extends TestCase
 
     protected function setUp()
     {
-        $this->report = Reporter::getReporter();
+        $this->report = Reporter::getReporter('test');
     }
 
     public function testLog()
     {
+        $this->report->getReport();
         $this->report->log(LogLevel::ERROR, "message", []);
         $this->report->error("message", []);
         $this->report->warning("message", []);
-        ob_start();
-        $this->report->printReport();
-        $out = ob_get_contents();
-        ob_end_clean();
-        //print($out);
-
-        $count = substr_count($out, 'message');
-        print_r($count);
+        $arr = $this->report->getReport();
+        $count = count($arr);
         $this->assertEquals($count, 3);
-        $count = substr_count($out, 'error');
-        $this->assertEquals($count, 2);
     }
 
-    public function testPrintReport()
+    public function testgetReport()
     {
-        // вывод в нужном формате
-        $this->assertTrue(true);
+        $this->report->getReport();
+        $this->report->log(LogLevel::ERROR, "message", []);
+        $this->report->error("message", []);
+        $this->report->warning("message", []);
+        $arr = $this->report->getReport();
+        $this->assertEquals($arr[0]['level'], LogLevel::ERROR);
+        $this->assertEquals($arr[1]['message'], 'message');
+        $this->assertEquals($arr[2]['message'], 'message');
     }
 }

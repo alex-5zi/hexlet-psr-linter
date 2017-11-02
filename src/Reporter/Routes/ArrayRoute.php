@@ -16,30 +16,30 @@ class ArrayRoute extends Route
     public function log($level, $message, array $context = [])
     {
         $this->report[] = ['level' => $level, 'message' => $message, 'context' => $context];
-        // $climate = new CLImate;
-        // $arrLog = [];
-        // $arrLog[] = [$level,
-        //               implode(" : ", $context),
-        //               $message
-        //             ];
-        // $climate->columns($arrLog);
     }
 
-    public function printReport()
+    public function getReport()
     {
-        $climate = new CLImate;
-        if (!empty($this->report)) {
-            foreach ($this->report as $key => $value) {
-                if (!empty($value)) {
-                    //  $climate->comment($key);
-                    $arrLog = [];
-                    $arrLog[] = [$value['level'],
-                                  implode(" : ", $value['context']),
-                                  $value['message']
-                                ];
-                    $climate->columns($arrLog);
-                }
-            }
-        }
+        $report = $this->report;
+        $this->report = [];
+        return $report;
     }
+
+    // public function printReport()
+    // {
+    //     $climate = new CLImate;
+    //     if (!empty($this->report)) {
+    //         foreach ($this->report as $key => $value) {
+    //             if (!empty($value)) {
+    //                 //  $climate->comment($key);
+    //                 $arrLog = [];
+    //                 $arrLog[] = [$value['level'],
+    //                               implode(" : ", $value['context']),
+    //                               $value['message']
+    //                             ];
+    //                 $climate->columns($arrLog);
+    //             }
+    //         }
+    //     }
+    // }
 }
