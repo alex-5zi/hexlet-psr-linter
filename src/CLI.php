@@ -5,6 +5,7 @@ namespace hexletPsrLinter;
 use hexletPsrLinter\Exceptions\CLIException;
 use hexletPsrLinter\Linter;
 use hexletPsrLinter\Reporter\Reporter;
+use League\CLImate\CLImate;
 
 class CLI
 {
@@ -12,6 +13,36 @@ class CLI
     private $files = array();
     private $rules = array();
     private $args;
+    private $climate;
+    private $report;
+
+    public function __construct($name='root')
+    {
+        $this->climate = new CLImate;
+        $this->climate->output->defaultTo('buffer');
+        $this->climate->arguments->add([
+          'fix' => [
+              'prefix'       => 'f',
+              'longPrefix'   => 'fix',
+              'description'  => 'fix',
+              'noValue'      => true,
+          ],
+          'rules' => [
+              'longPrefix'  => 'rules',
+              'description' => 'rules',
+          ],
+          'help' => [
+              'prefix'       => 'h',
+              'longPrefix'  => 'help',
+              'description' => 'Prints a usage statement',
+              'noValue'     => true,
+          ],
+          'path' => [
+              'description' => 'path',
+          ],
+      ]);
+        $this->climate->description('hexlet-psr-linter');
+    }
 
     public function getFiles()
     {
@@ -53,7 +84,7 @@ class CLI
         $this->args = $_SERVER['argv'];
         try {
             $this->setCommandLineValues();
-        } catch (CLIException $e) {
+        } catch (CLIException $e) { //(CLIException $e)
             fwrite(STDERR, $e->getMessage());
             return $e->getCode();
         }//end try
@@ -65,7 +96,25 @@ class CLI
             }
         }
 
-        Reporter::getReporter()->printReport();
+        $this->report  = Reporter::getReporter()->getReport();
+
+        if (!empty($this->report)) {
+            foreach ($this->report as $key => $value) {
+                if (!empty($value)) {
+                    //  $climate->comment($key);
+                    $arrLog = [];
+                    $arrLog[] = [$value['level'],
+                                      implode(" : ", $value['context']),
+                                      $value['message']
+                                    ];
+                    $this->climate->to('buffer')->columns($arrLog);
+                }
+            }
+        }
+
+        $out = $this->climate->output->get('buffer')->get();
+
+        fwrite(STDOUT, $out);
     }
 
 
@@ -141,6 +190,9 @@ class CLI
 
     private function printUsage()
     {
-        return 'Usage: hexlet-psr-linter [--fix] [--rules <file>] <file> ...' . PHP_EOL;
+        //  $this->climate->output->addDefault('buffer');
+        $this->climate->to('buffer')->usage();
+        $str = $this->climate->output->get('buffer')->get();
+        return $str;
     }
 }

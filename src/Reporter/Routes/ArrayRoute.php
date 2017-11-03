@@ -1,7 +1,6 @@
 <?php
 namespace hexletPsrLinter\Reporter\Routes;
 
-use League\CLImate\CLImate;
 use hexletPsrLinter\Reporter\Route;
 
 class ArrayRoute extends Route
