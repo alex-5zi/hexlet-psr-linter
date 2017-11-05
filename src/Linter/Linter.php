@@ -17,7 +17,8 @@ function lint($code, $path='', $rules = array())
 {
     $allRules = array_merge(
             [
-                                     new Rules\CamelCapsRule(),
+                                     new Rules\FunctionNameRule(),
+                                     new Rules\VariableNameRule(),
                                      new Rules\SideEffectsRule()
                                 ],
             $rules
