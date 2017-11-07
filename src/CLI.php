@@ -6,6 +6,7 @@ use hexletPsrLinter\Exceptions\CLIException;
 use hexletPsrLinter\Linter;
 use hexletPsrLinter\Reporter\Reporter;
 use League\CLImate\CLImate;
+use hexletPsrLinter\Linter\Rules\AutoLoadRules;
 
 class CLI
 {
@@ -42,6 +43,21 @@ class CLI
           ],
       ]);
         $this->climate->description('hexlet-psr-linter');
+        $this->register();
+    }
+
+    public function register()
+    {
+        spl_autoload_register(
+            function ($class) {
+                $paths = AutoLoadRules::getRules();
+                $name = substr($class, 29);
+                $file = $paths[$name];
+                if (file_exists($file)) {
+                    require $file;
+                }
+            }
+        );
     }
 
     public function getFiles()
@@ -89,10 +105,18 @@ class CLI
             return $e->getCode();
         }//end try
 
+        AutoLoadRules::scanRules();
+        foreach ($this->rules as $key => $path) {
+            AutoLoadRules::addRules($path);
+        }
+
         foreach ($this->files as $path) {
             if (is_file($path)) {
                 $code = file_get_contents($path);
-                Linter\lint($code, $path);
+                $code = Linter\lint($code, $path, $this->fix);
+                if ($this->fix) {
+                    file_put_contents($path, $code);
+                }
             }
         }
 

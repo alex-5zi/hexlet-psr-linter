@@ -100,6 +100,11 @@ class FunctionNameRule implements RuleInterface
         return;
     }
 
+    public function autofix(Node $node)
+    {
+        return;
+    }
+
     public function beforeCheck(array $nodes)
     {
         return;

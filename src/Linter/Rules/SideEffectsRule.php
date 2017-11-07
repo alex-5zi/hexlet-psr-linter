@@ -70,4 +70,9 @@ class SideEffectsRule implements RuleInterface
     {
         $this->path = $path;
     }
+
+    public function autofix(Node $node)
+    {
+        return;
+    }
 }

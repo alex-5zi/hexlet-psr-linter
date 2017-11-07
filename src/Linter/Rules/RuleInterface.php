@@ -11,4 +11,5 @@ interface RuleInterface
     public function check(Node $node);
     public function afterCheck(array $nodes);
     public function setPath($path);
+    public function autofix(Node $node);
 }

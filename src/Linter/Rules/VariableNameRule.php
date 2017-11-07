@@ -92,4 +92,20 @@ class VariableNameRule implements RuleInterface
     {
         return;
     }
+
+    public function autofix(Node $node)
+    {
+        if (($node instanceof Node\Expr\Variable) || ($node instanceof Node\Stmt\PropertyProperty)) {
+            if (isUnderScore($node->name)) {
+                $arr = explode('_', $node->name);
+                foreach ($arr as $key => $value) {
+                    if ($key > 0) {
+                        $arr[$key] = ucwords($value);
+                    }
+                }
+                $name = implode($arr);
+                $node->name = $name;
+            }
+        }
+    }
 }

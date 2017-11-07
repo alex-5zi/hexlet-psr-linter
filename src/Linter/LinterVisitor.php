@@ -8,11 +8,13 @@ class LinterVisitor extends NodeVisitorAbstract
 {
     private $rules;
     private $path;
+    private $fix;
 
-    public function __construct($rules, $path)
+    public function __construct($rules, $path, $fix)
     {
         $this->rules = $rules;
         $this->path = $path;
+        $this->fix = $fix;
     }
 
     public function beforeTraverse(array $nodes)
@@ -27,6 +29,15 @@ class LinterVisitor extends NodeVisitorAbstract
     {
         foreach ($this->rules as $rule) {
             $rule->check($node);
+        }
+    }
+
+    public function leaveNode(Node $node)
+    {
+        if ($this->fix) {
+            foreach ($this->rules as $rule) {
+                $rule->autofix($node);
+            }
         }
     }
 
