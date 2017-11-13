@@ -7,6 +7,7 @@ use hexletPsrLinter\Linter;
 use hexletPsrLinter\Reporter\Reporter;
 use League\CLImate\CLImate;
 use hexletPsrLinter\Linter\Rules\AutoLoadRules;
+use Symfony\Component\Yaml\Yaml;
 
 class CLI
 {
@@ -16,6 +17,7 @@ class CLI
     private $args;
     private $climate;
     private $report;
+    private $reportFormat = 'text';
 
     public function __construct($name='root')
     {
@@ -27,6 +29,10 @@ class CLI
               'longPrefix'   => 'fix',
               'description'  => 'fix',
               'noValue'      => true,
+          ],
+          'report-format' => [
+              'longPrefix'   => 'report-format',
+              'description'  => 'text, json, yaml',
           ],
           'rules' => [
               'longPrefix'  => 'rules',
@@ -122,20 +128,34 @@ class CLI
 
         $this->report  = Reporter::getReporter()->getReport();
 
-        if (!empty($this->report)) {
-            foreach ($this->report as $key => $value) {
-                if (!empty($value)) {
-                    //  $climate->comment($key);
-                    $arrLog = [];
-                    $arrLog[] = [$value['level'],
+        switch ($this->reportFormat) {
+            case 'text':
+                if (!empty($this->report)) {
+                    foreach ($this->report as $key => $value) {
+                        if (!empty($value)) {
+                            //  $climate->comment($key);
+                            $arrLog = [];
+                            $arrLog[] = [$value['level'],
                                       implode(" : ", $value['context']),
                                       $value['message']
                                     ];
-                    $this->climate->to('buffer')->columns($arrLog);
+                            $this->climate->to('buffer')->columns($arrLog);
+                        }
+                    }
                 }
-            }
+            break;
+            case 'json':
+                if (!empty($this->report)) {
+                    $this->climate->to('buffer')->json($this->report);
+                }
+            break;
+            case 'yaml':
+                if (!empty($this->report)) {
+                    $yaml = Yaml::dump($this->report);
+                    $this->climate->to('buffer')->out($yaml);
+                }
+          break;
         }
-
         $out = $this->climate->output->get('buffer')->get();
 
         fwrite(STDOUT, $out);
@@ -198,6 +218,22 @@ class CLI
                 } //end if
                 $value   = $this->args[($pos)];
                 $this->rules = array_merge($this->rules, $this->scanpath($value));
+                break;
+            case 'report-format':
+                $pos++;
+                if (isset($this->args[($pos)]) === false) {
+                    $output = 'ERROR: Setting a report-format option requires a value'.PHP_EOL.PHP_EOL;
+                    $output .= $this->printUsage();
+                    throw new CLIException($output, 3);
+                } //end if
+                $value   = $this->args[($pos)];
+                if ($value === 'text' || $value === 'json' || $value === 'yaml') {
+                    $this->reportFormat = $value;
+                } else {
+                    $output = 'ERROR: Setting a report-format option requires a value'.PHP_EOL.PHP_EOL;
+                    $output .= $this->printUsage();
+                    throw new CLIException($output, 3);
+                }
                 break;
             default:
                 $output  = "ERROR: option \"$arg\" not known".PHP_EOL.PHP_EOL;
