@@ -58,9 +58,13 @@ class CLI
             function ($class) {
                 $paths = AutoLoadRules::getRules();
                 $name = substr($class, 29);
-                $file = $paths[$name];
-                if (file_exists($file)) {
-                    require $file;
+                if (is_string($name)) {
+                    if (array_key_exists($name, $paths)) {
+                        $file = $paths[$name];
+                        if (file_exists($file)) {
+                            require $file;
+                        }
+                    }
                 }
             }
         );
@@ -84,14 +88,22 @@ class CLI
     private function scanpath($path)
     {
         if (is_dir($path)) {
-            $files = scandir($path);
-            $patchs = [];
-            foreach ($files as $file) {
-                if (substr($file, -4) === '.php') {
-                    $patchs[] = $file;
+//            $files = scandir($path);
+            $paths = [];
+//            foreach ($files as $file) {
+//                if (substr($file, -4) === '.php') {
+//                    $patchs[] = $file;
+//                }
+            $directory = new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS);
+            $iterator = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
+            foreach ($iterator as $info) {
+                if ($info->isFile() && $info->getExtension() == 'php') {
+                    array_push($paths, $info->getPathname());
                 }
             }
-            return  $patchs;  //glob($path.DIRECTORY_SEPARATOR.'*.php');
+
+            //  }
+            return  $paths;  //glob($path.DIRECTORY_SEPARATOR.'*.php');
         } elseif (is_file($path)) {
             return [$path] ;
         }
@@ -111,7 +123,7 @@ class CLI
             return $e->getCode();
         }//end try
 
-        AutoLoadRules::scanRules();
+        //AutoLoadRules::scanRules();
         foreach ($this->rules as $key => $path) {
             AutoLoadRules::addRules($path);
         }

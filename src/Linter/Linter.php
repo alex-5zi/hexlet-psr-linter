@@ -24,6 +24,7 @@ function lint($code, $path='', $fix = false)
     //                             ],
     //         $rules
     //     );
+    Rules\AutoLoadRules::scanRules();
     $allRules = Rules\AutoLoadRules::getArrObjectRules();
 
     $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);

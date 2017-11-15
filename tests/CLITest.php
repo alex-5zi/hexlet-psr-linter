@@ -62,6 +62,15 @@ class CLITest extends TestCase
         } catch (CLIException $e) {
             $this->fail('Not raise an exception');
         }
+
+        //test 3
+        $path = vfsStream::url('root/Core');
+        try {
+            $result = $method->invoke($obj, $path);
+            $this->assertEquals(count($result), 5);
+        } catch (CLIException $e) {
+            $this->fail('Not raise an exception');
+        }
     }
 
     public function testSetCommandLineValues()

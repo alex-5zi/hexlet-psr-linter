@@ -1,23 +1,17 @@
 <?php
 
-namespace hexletPsrLinter;
+namespace hexletPsrLinter\Linter;
 
 use PHPUnit\Framework\TestCase;
-use hexletPsrLinter\Linter\Rules\CamelCaseRule;
 
-class UtilsTest extends TestCase
+class LinterUtilsTest extends TestCase
 {
     /**
     * @dataProvider isCamelCaseProvider
     */
     public function testIsCamelCase($item, $upper, $result)
     {
-        $class = new \ReflectionClass('hexletPsrLinter\Linter\Rules\CamelCaseRule');
-        $method = $class->getMethod('isCamelCase');
-        $method->setAccessible(true);
-        $obj = new CamelCaseRule();
-
-        $this->assertEquals($result, $method->invoke($obj, $item, $upper));
+        $this->assertEquals($result, isCamelCase($item, $upper));
     }
 
     public function isCamelCaseProvider()
@@ -45,12 +39,7 @@ class UtilsTest extends TestCase
     */
     public function testIsUnderScore($item, $result)
     {
-        $class = new \ReflectionClass('hexletPsrLinter\Linter\Rules\CamelCaseRule');
-        $method = $class->getMethod('isUnderScore');
-        $method->setAccessible(true);
-        $obj = new CamelCaseRule();
-
-        $this->assertEquals($result, $method->invoke($obj, $item));
+        $this->assertEquals($result, isUnderScore($item));
     }
 
     public function isUnderScoreProvider()
