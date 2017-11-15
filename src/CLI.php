@@ -19,7 +19,7 @@ class CLI
     private $report;
     private $reportFormat = 'text';
 
-    public function __construct($name='root')
+    public function __construct($name = 'root')
     {
         $this->climate = new CLImate;
         $this->climate->output->defaultTo('buffer');
@@ -47,7 +47,7 @@ class CLI
           'path' => [
               'description' => 'path',
           ],
-      ]);
+        ]);
         $this->climate->description('hexlet-psr-linter');
         $this->register();
     }
@@ -155,18 +155,18 @@ class CLI
                         }
                     }
                 }
-            break;
+                break;
             case 'json':
                 if (!empty($this->report)) {
                     $this->climate->to('buffer')->json($this->report);
                 }
-            break;
+                break;
             case 'yaml':
                 if (!empty($this->report)) {
                     $yaml = Yaml::dump($this->report);
                     $this->climate->to('buffer')->out($yaml);
                 }
-          break;
+                break;
         }
         $out = $this->climate->output->get('buffer')->get();
 

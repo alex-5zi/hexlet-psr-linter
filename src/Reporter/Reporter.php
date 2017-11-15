@@ -12,14 +12,14 @@ class Reporter extends AbstractLogger implements LoggerInterface
     protected $name;
     protected $routes;
 
-    public function __construct($name='root')
+    public function __construct($name = 'root')
     {
         $this->routes = new SplObjectStorage();
         $this->routes->attach(new ArrayRoute(), 'ArrayRoute');
         $this->name = $name;
     }
 
-    public static function getReporter($name='root')
+    public static function getReporter($name = 'root')
     {
         if (!isset(self::$reporters[$name])) {
             self::$reporters[$name]=new Reporter($name);

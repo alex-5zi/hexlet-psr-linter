@@ -21,14 +21,14 @@ class ClassNameRule implements RuleInterface
 
     private function addLogClass(Node $node)
     {
-        if (!isCamelCase($node->name, true)) {
+        if (!isCamelCase($node->name, true, true)) {
             $this->reporter->warning(
-                    "Class name is not in camelCase format",
-                    [
+                "Class name is not in camelCase format",
+                [
                                         'line' => $this->path.":".$node->getAttribute('startLine'),
                                         'name' => $node->name
                                     ]
-                );
+            );
         }
         return;
     }

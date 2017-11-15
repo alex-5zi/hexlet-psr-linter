@@ -14,7 +14,7 @@ use hexletPsrLinter\Linter\LinterVisitor;
 use hexletPsrLinter\Reporter\Reporter;
 use Psr\Log\LogLevel;
 
-function lint($code, $path='', $fix = false)
+function lint($code, $path = '', $fix = false)
 {
     // $allRules = array_merge(
     //         [

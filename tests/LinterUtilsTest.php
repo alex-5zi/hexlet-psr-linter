@@ -9,28 +9,29 @@ class LinterUtilsTest extends TestCase
     /**
     * @dataProvider isCamelCaseProvider
     */
-    public function testIsCamelCase($item, $upper, $result)
+    public function testIsCamelCase($item, $upper, $twoCaps, $result)
     {
-        $this->assertEquals($result, isCamelCase($item, $upper));
+        $this->assertEquals($result, isCamelCase($item, $upper, $twoCaps));
     }
 
     public function isCamelCaseProvider()
     {
         return [
-                ['isCamelCaps',false, true],
-                ['IsCamelCaps',false, false],
-                ['iscamelcaps',false, true],
-                ['isCamelCAPS',false, false],
-                ['i',false, true],
-                ['IsCamelCaps',true, true],
-                ['isCamelCaps',true, false],
-                ['Iscamelcaps',true, true],
-                ['IsCamelCAPS',true, false],
-                ['I',true, true],
-                ['IsCamelCaps2',true, true],
-                ['IsCamel2Caps',true, true],
-                ['2IsCamelCaps',false, false],
-                ['2IsCamelCaps',true, false],
+                ['isCamelCaps',false, false, true],
+                ['IsCamelCaps',false, false, false],
+                ['iscamelcaps',false, false, true],
+                ['isCamelCAPS',false, false, false],
+                ['i',false, false, true],
+                ['IsCamelCaps',true, false, true],
+                ['isCamelCaps',true, false, false],
+                ['Iscamelcaps',true, false, true],
+                ['IsCamelCAPS',true, false, false],
+                ['IsCamelCAPS',true, true, true],
+                ['I',true, false, true],
+                ['IsCamelCaps2',true, false, true],
+                ['IsCamel2Caps',true, false, true],
+                ['2IsCamelCaps',false, false, false],
+                ['2IsCamelCaps',true, false, false],
             ];
     }
 

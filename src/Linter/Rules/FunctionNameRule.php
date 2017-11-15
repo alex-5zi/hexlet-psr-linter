@@ -43,12 +43,12 @@ class FunctionNameRule implements RuleInterface
     {
         if (!isCamelCase($node->name)) {
             $this->reporter->warning(
-                    "Function name is not in camelCase format",
-                    [
+                "Function name is not in camelCase format",
+                [
                                         'line' => $this->path.":".$node->getAttribute('startLine'),
                                         'name' => $node->name
                                     ]
-                );
+            );
         }
         return;
     }

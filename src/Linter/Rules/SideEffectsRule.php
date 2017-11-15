@@ -61,7 +61,7 @@ class SideEffectsRule implements RuleInterface
                                 and cause no other side effects, or
                                 it SHOULD execute logic with
                                 side effects, but SHOULD NOT do both.',
-                              ['path' => $this->path]
+                ['path' => $this->path]
             );
         }
     }

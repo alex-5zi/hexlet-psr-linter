@@ -2,7 +2,7 @@
 
 namespace hexletPsrLinter\Linter;
 
-function isCamelCase($string, $upper = false)
+function isCamelCase($string, $upper = false, $twoCaps = false)
 {
     if ($upper) {
         $legalChars = '^[A-Z][a-zA-Z0-9]{0,}$';
@@ -13,12 +13,12 @@ function isCamelCase($string, $upper = false)
     if (preg_match("/$legalChars/", $string) === 0) {
         return false;
     }
-
-    $twoCaps = '[A-Z]{2,}';
-    if (preg_match("/$twoCaps/", $string) > 0) {
-        return false;
+    if (!$twoCaps) {
+        $twoCapsPattern = '[A-Z]{2,}';
+        if (preg_match("/$twoCapsPattern/", $string) > 0) {
+            return false;
+        }
     }
-
     return true;
 }
 

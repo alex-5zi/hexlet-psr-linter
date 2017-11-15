@@ -82,7 +82,8 @@ class CLITest extends TestCase
         $args->setAccessible(true);
         try {
             $obj = new CLI();
-            $args->setValue($obj, array("-f", "--rules", vfsStream::url('root/Core/Rules'), vfsStream::url('root/Core/src')));
+            $args->setValue($obj, array("-f", "--rules", vfsStream::url('root/Core/Rules'),
+              vfsStream::url('root/Core/src')));
             $method->invoke($obj);
             $this->assertEquals(count($obj->getFiles()), 3);
             $this->assertEquals(count($obj->getRules()), 2);
@@ -120,7 +121,8 @@ class CLITest extends TestCase
         $args = $class->getProperty('args');
         $args->setAccessible(true);
         $obj = new CLI();
-        $args->setValue($obj, array("-f", "--rules", vfsStream::url('root/Core/Rules'), vfsStream::url('root/Core/src')));
+        $args->setValue($obj, array("-f", "--rules", vfsStream::url('root/Core/Rules'),
+          vfsStream::url('root/Core/src')));
         try {
             $method->invoke($obj, 'h', 0);
             $this->fail('Not raise an exception');

@@ -25,14 +25,14 @@ class LinterUtilsTest extends TestCase
     {
         $code = '<?php'.PHP_EOL;
         $code .= PHP_EOL;
-        $code .= 'class myClass'.PHP_EOL;
+        $code .= 'class MyClass'.PHP_EOL;
         $code .= '{'.PHP_EOL;
         $code .= '    protected $name;'.PHP_EOL;
         $code .= '}'.PHP_EOL;
         $report = Reporter::getReporter('test')->getReport();
 
         $code1 = '<?php'.PHP_EOL;
-        $code1 .= 'class myClass'.PHP_EOL;
+        $code1 .= 'class MyClass'.PHP_EOL;
         $code1 .= '{'.PHP_EOL;
         $code1 .= '    protected $FAILname;'.PHP_EOL;
         $code1 .= '}'.PHP_EOL;
@@ -46,7 +46,7 @@ class LinterUtilsTest extends TestCase
         $report1 = Reporter::getReporter('test')->getReport();
 
         $code2 = '<?php'.PHP_EOL;
-        $code2 .= 'class myClass'.PHP_EOL;
+        $code2 .= 'class MyClass'.PHP_EOL;
         $code2 .= '{'.PHP_EOL;
         $code2 .= '    protected $fix_name;'.PHP_EOL;
         $code2 .= '}'.PHP_EOL;
@@ -54,7 +54,7 @@ class LinterUtilsTest extends TestCase
         $code2Result = 'fixName';
 
         $code3 = '<?php'.PHP_EOL;
-        $code3 .= 'class myClass'.PHP_EOL;
+        $code3 .= 'class MyClass'.PHP_EOL;
         $code3 .= '{'.PHP_EOL;
         $code3 .= 'protected $name;'.PHP_EOL;
         $code3 .= 'public function SetFailName($_fail_name)'.PHP_EOL;
