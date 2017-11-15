@@ -5,20 +5,22 @@ namespace hexletPsrLinter\Linter\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
-use hexletPsrLinter\Logger\Logger;
-use Psr\Log\LoggerInterface;
+use hexletPsrLinter\Reporter\Reporter;
+
+//use Psr\Log\LoggerInterface;
 
 class SideEffectsRule implements RuleInterface
 {
-    private $log;
-    
+    private $reporter;
+
     private $flagDeclaration;
     private $flagSideEffect;
     private $endLine;
-    
+    private $path;
+
     public function __construct()
     {
-        $this->log = new Logger;
+        $this->reporter = Reporter::getReporter();
     }
 
     public function beforeCheck(array $nodes)
@@ -27,7 +29,7 @@ class SideEffectsRule implements RuleInterface
         $this->flagDeclaration = false;
         $this->endLine = 0;
     }
-    
+
     public function check(Node $node)
     {
         switch ($node->getType()) {
@@ -49,20 +51,28 @@ class SideEffectsRule implements RuleInterface
         }
         return;
     }
-    
+
     public function afterCheck(array $nodes)
     {
         if ($this->flagSideEffect && $this->flagDeclaration) {
-            $this->log->warning('A file SHOULD declare new symbols
+            $this->reporter->warning(
+                'A file SHOULD declare new symbols
                                 (classes, functions, constants, etc.)
                                 and cause no other side effects, or
                                 it SHOULD execute logic with
-                                side effects, but SHOULD NOT do both.');
+                                side effects, but SHOULD NOT do both.',
+                ['path' => $this->path]
+            );
         }
     }
-    
-    public function getLog()
+
+    public function setPath($path)
     {
-        return $this->log;
+        $this->path = $path;
+    }
+
+    public function autofix(Node $node)
+    {
+        return;
     }
 }

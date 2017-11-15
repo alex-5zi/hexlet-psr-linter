@@ -5,13 +5,14 @@ namespace hexletPsrLinter\Linter\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
-use hexletPsrLinter\Logger\Logger;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use hexletPsrLinter\Reporter\Reporter;
+use function hexletPsrLinter\Linter\isCamelCase;
 
-class CamelCapsRule implements RuleInterface
+class FunctionNameRule implements RuleInterface
 {
-    private $log;
+    private $reporter;
+
+    private $patch;
 
     protected $magicMethods = array(
                                'construct'  => true,
@@ -30,84 +31,61 @@ class CamelCapsRule implements RuleInterface
                                'invoke'     => true,
                                'debuginfo'  => true,
                               );
-    
+
+
     public function __construct()
     {
-        $this->log = new Logger();
+        $this->reporter = Reporter::getReporter();
     }
+
 
     private function addLogFunction(Node $node)
     {
-        if (!\PHP_CodeSniffer::isCamelCaps($node->name, false, true, true)) {
-                $this->log->warning(
-                    "Function name is not in camel caps format",
-                    [
-                                        'line' => $node->getAttribute('startLine'),
+        if (!isCamelCase($node->name)) {
+            $this->reporter->warning(
+                "Function name is not in camelCase format",
+                [
+                                        'line' => $this->path.":".$node->getAttribute('startLine'),
                                         'name' => $node->name
                                     ]
-                );
+            );
         }
         return;
     }
-    
+
     private function addLogClassMethod(Node $node)
     {
         $methodName = $node->name;
         if (preg_match('|^__|', $methodName)) {
             $magicPart = strtolower(substr($methodName, 2));
             if (!isset($this->magicMethods[$magicPart])) {
-                $this->log->warning(
+                $this->reporter->warning(
                     'Method name is invalid; only PHP magic methods should be prefixed with a double underscore',
                     [
-                                    'line' => $node->getAttribute('startLine'),
+                                    'line' => $this->path.":".$node->getAttribute('startLine'),
                                     'name' => $node->name
                                 ]
                 );
             }
             return;
         }
-        if (!\PHP_CodeSniffer::isCamelCaps($methodName, false, true, true)) {
-            $this->log->warning(
-                "Method name is not in camel caps format",
+        if (!isCamelCase($methodName)) {
+            $this->reporter->warning(
+                "Method name is not in camelCase format",
                 [
-                                'line' => $node->getAttribute('startLine'),
+                                'line' => $this->path.":".$node->getAttribute('startLine'),
                                 'name' => $node->name
                             ]
             );
         }
-            return;
+        return;
     }
-    
-    private function addLogClassVariable(Node $node)
+
+    public function setPath($path)
     {
-        if (!\PHP_CodeSniffer::isCamelCaps($node->name, false, true, true)
-                && !\PHP_CodeSniffer::isCamelCaps($node->name, true, true, true)) {
-            $this->log->warning(
-                "Variable name is not in camel caps format",
-                [
-                                'line' => $node->getAttribute('startLine'),
-                                'name' => $node->name
-                            ]
-            );
-        }
-            return;
+        $this->path = $path;
     }
-    
-    private function addLogClassPropertyProperty(Node $node)
-    {
-        if (!\PHP_CodeSniffer::isCamelCaps($node->name, false, true, true)
-                && !\PHP_CodeSniffer::isCamelCaps($node->name, true, true, true)) {
-            $this->log->warning(
-                "Property name is not in camel caps format",
-                [
-                                'line' => $node->getAttribute('startLine'),
-                                'name' => $node->name
-                            ]
-            );
-        }
-            return;
-    }
-    
+
     public function check(Node $node)
     {
         if ($node instanceof Stmt\Function_) {
@@ -119,27 +97,19 @@ class CamelCapsRule implements RuleInterface
             $this->addLogClassMethod($node);
             return;
         }
-        if ($node instanceof Node\Expr\Variable) {
-            $this->addLogClassVariable($node);
-            return;
-        }
-        if ($node instanceof Node\Stmt\PropertyProperty) {
-            $this->addLogClassPropertyProperty($node);
-            return;
-        }
         return;
     }
-     
-    public function getLog()
+
+    public function autofix(Node $node)
     {
-        return $this->log;
+        return;
     }
-    
+
     public function beforeCheck(array $nodes)
     {
         return;
     }
-    
+
     public function afterCheck(array $nodes)
     {
         return;

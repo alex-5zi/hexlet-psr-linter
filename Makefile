@@ -5,10 +5,11 @@ autoload:
 	composer dump-autoload
 
 lint:
-	composer exec 'phpcs --standard=PSR2 src tests' 
+	./vendor/bin/phpcs --standard=PSR2 src tests
 	./bin/hexlet-psr-linter src
 
 test:
-	composer exec 'phpunit tests'
-beauty:	
-	composer exec 'phpcbf --standard=PSR2 src bin'
+	./vendor/bin/phpunit tests
+
+beauty:
+	./vendor/bin/phpcbf --standard=PSR2 src bin tests

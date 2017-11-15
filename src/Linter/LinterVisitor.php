@@ -3,46 +3,48 @@ namespace hexletPsrLinter\Linter;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use hexletPsrLinter\Logger\Logger;
 
 class LinterVisitor extends NodeVisitorAbstract
 {
     private $rules;
-    
-    public function __construct($rules)
+    private $path;
+    private $fix;
+
+    public function __construct($rules, $path, $fix)
     {
         $this->rules = $rules;
+        $this->path = $path;
+        $this->fix = $fix;
     }
-    
+
     public function beforeTraverse(array $nodes)
     {
         foreach ($this->rules as $rule) {
             $rule->beforeCheck($nodes);
+            $rule->setPath($this->path);
         }
     }
-    
+
     public function enterNode(Node $node)
     {
         foreach ($this->rules as $rule) {
             $rule->check($node);
         }
     }
-    
+
+    public function leaveNode(Node $node)
+    {
+        if ($this->fix) {
+            foreach ($this->rules as $rule) {
+                $rule->autofix($node);
+            }
+        }
+    }
+
     public function afterTraverse(array $nodes)
     {
         foreach ($this->rules as $rule) {
             $rule->afterCheck($nodes);
         }
-    }
-    
-    public function getLog()
-    {
-        $log = new Logger();
-        foreach ($this->rules as $rule) {
-            foreach ($rule->getLog()->getLog() as $value) {
-                $log->log($value['level'], $value['message'], $value['context']);
-            }
-        }
-        return $log;
     }
 }

@@ -1,9 +1,7 @@
 # php-package
 
 [![Build Status](https://travis-ci.org/alex-5zi/hexlet-psr-linter.svg?branch=master)](https://travis-ci.org/alex-5zi/hexlet-psr-linter.svg?branch=master)
-[![Code Climate](https://codeclimate.com/repos/579e56052bfc256b780006ed/badges/fa0ac79b958ad4336606/gpa.svg)](https://codeclimate.com/repos/579e56052bfc256b780006ed/feed)
-[![Test Coverage](https://codeclimate.com/repos/579e56052bfc256b780006ed/badges/fa0ac79b958ad4336606/coverage.svg)](https://codeclimate.com/repos/579e56052bfc256b780006ed/coverage)
-[![Issue Count](https://codeclimate.com/repos/579e56052bfc256b780006ed/badges/fa0ac79b958ad4336606/issue_count.svg)](https://codeclimate.com/repos/579e56052bfc256b780006ed/feed)
-
+[![Maintainability](https://api.codeclimate.com/v1/badges/7174e338b5aacd76f9bc/maintainability)](https://codeclimate.com/github/alex-5zi/hexlet-psr-linter/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/7174e338b5aacd76f9bc/test_coverage)](https://codeclimate.com/github/alex-5zi/hexlet-psr-linter/test_coverage)
 
 # hexlet-psr-linter

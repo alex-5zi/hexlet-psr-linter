@@ -9,31 +9,36 @@ use PhpParser\ParserFactory;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\Error;
+use PhpParser\PrettyPrinter;
 use hexletPsrLinter\Linter\LinterVisitor;
-use hexletPsrLinter\Logger\Logger;
+use hexletPsrLinter\Reporter\Reporter;
+use Psr\Log\LogLevel;
 
-function lint($code, $rules = array())
+function lint($code, $path = '', $fix = false)
 {
-        $allRules = array_merge(
-            [
-                                     new Rules\CamelCapsRule(),
-                                     new Rules\SideEffectsRule()
-                                ],
-            $rules
-        );
-        
-        $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-        $traverser   = new NodeTraverser;
-        $nodeVisitor = new LinterVisitor($allRules);
-        $traverser->addVisitor($nodeVisitor);
+    // $allRules = array_merge(
+    //         [
+    //                                  new Rules\FunctionNameRule(),
+    //                                  new Rules\VariableNameRule(),
+    //                                  new Rules\SideEffectsRule()
+    //                             ],
+    //         $rules
+    //     );
+    Rules\AutoLoadRules::scanRules();
+    $allRules = Rules\AutoLoadRules::getArrObjectRules();
+
+    $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+    $traverser   = new NodeTraverser;
+    $nodeVisitor = new LinterVisitor($allRules, $path, $fix);
+    $traverser->addVisitor($nodeVisitor);
+    $prettyPrinter = new PrettyPrinter\Standard;
+
     try {
         $stmts = $parser->parse($code);
         $stmts = $traverser->traverse($stmts);
+        $code = $prettyPrinter->prettyPrintFile($stmts);
+        return $code;
     } catch (Error $e) {
-        $log = new Logger();
-        $log->error('Parse Error: '. $e->getMessage());
-        return $log;
+        Reporter::getReporter()->error('Parse Error: '. $e->getMessage());
     }
-     
-        return $nodeVisitor->getLog();
 }

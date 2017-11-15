@@ -3,13 +3,13 @@
 namespace hexletPsrLinter\Linter\Rules;
 
 use PhpParser\Node;
-use Psr\Log\LoggerInterface;
-use hexletPsrLinter\Logger\Logger;
+use hexletPsrLinter\Reporter\Reporter;
 
 interface RuleInterface
 {
     public function beforeCheck(array $nodes);
     public function check(Node $node);
     public function afterCheck(array $nodes);
-    public function getLog();
+    public function setPath($path);
+    public function autofix(Node $node);
 }
