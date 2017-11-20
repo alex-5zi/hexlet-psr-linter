@@ -148,4 +148,20 @@ class CLITest extends TestCase
             $this->assertTrue(true);
         }
     }
+
+    /**
+    * @expectedException hexletPsrLinter\Exceptions\CLIException
+    */
+    public function testCLIException()
+    {
+        $class = new \ReflectionClass('hexletPsrLinter\CLI');
+        $method = $class->getMethod('processArgument');
+        $method->setAccessible(true);
+        $args = $class->getProperty('args');
+        $args->setAccessible(true);
+        $obj = new CLI();
+        $args->setValue($obj, array("-f", "--rules", vfsStream::url('root/Core/Rules'),
+        vfsStream::url('root/Core/src')));
+        $method->invoke($obj, 'h', 0);
+    }
 }

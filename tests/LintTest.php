@@ -78,11 +78,41 @@ class LinterUtilsTest extends TestCase
         );
         $report3 = Reporter::getReporter('test')->getReport();
 
+        $code4 = '<?php'.PHP_EOL;
+        $code4 .= 'class myClass'.PHP_EOL;
+        $code4 .= '{'.PHP_EOL;
+        $code4 .= '    protected $name;'.PHP_EOL;
+        $code4 .= '}'.PHP_EOL;
+        Reporter::getReporter('test')->warning(
+            "Class name is not in camelCase format",
+            [
+                            'line' => 'path:2',
+                            'name' => 'myClass'
+                        ]
+        );
+        $report4 = Reporter::getReporter('test')->getReport();
+
+        $code5 = '<?php'.PHP_EOL;
+        $code5 .= 'function MyFunction($name)'.PHP_EOL;
+        $code5 .= '{'.PHP_EOL;
+        $code5 .= '    return $name;'.PHP_EOL;
+        $code5 .= '}'.PHP_EOL;
+        Reporter::getReporter('test')->warning(
+            "Function name is not in camelCase format",
+            [
+                            'line' => 'path:2',
+                            'name' => 'MyFunction'
+                        ]
+        );
+        $report5 = Reporter::getReporter('test')->getReport();
+
         return [
                 [$code, 'path', false, $code, $report],
                 [$code1, 'path', false, $code1,  $report1],
                 [$code2, 'path', true, $code2Result, $report2],
-                [$code3, 'path', false, $code3, $report3]
+                [$code3, 'path', false, $code3, $report3],
+                [$code4, 'path', false, $code4, $report4],
+                [$code5, 'path', false, $code5, $report5],
             ];
     }
 }
