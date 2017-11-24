@@ -40,5 +40,6 @@ function lint($code, $path = '', $fix = false)
         return $code;
     } catch (Error $e) {
         Reporter::getReporter()->error('Parse Error: '. $e->getMessage());
+        return $code;
     }
 }
